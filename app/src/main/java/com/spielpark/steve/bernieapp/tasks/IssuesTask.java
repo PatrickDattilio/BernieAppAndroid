@@ -30,10 +30,11 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     private static ProgressBar progressBar;
     private static Context ctx;
     private static HashMap<String, String> vidLinks;
+
     public IssuesTask(Context ctx, ListView listView, ProgressBar progressBar) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
+        list = listView;
+        IssuesTask.ctx = ctx;
+        IssuesTask.progressBar = progressBar;
     }
 
     public static Issue getIssue(int position) {
@@ -82,29 +83,29 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
     @Override
     protected Object doInBackground(Object[] params) {
         retrieveLinks();
-            BufferedReader in = null;
-            try {
-                URL url = new URL("https://berniesanders.com/?json=true&which=issues");
-                in = new BufferedReader(new InputStreamReader(url.openStream()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            if (in == null) {
-                Log.d("reader null", "no events, null reader,");
-                Issue i = new Issue();
-                i.setHtmlTitle("Unable to Load News");
-                i.setDesc("Check your internet connection?");
-                issues.add(i);
-                return null;
-            }
-            JsonReader reader = new JsonReader(in);
-            try {
-                readObjects(reader);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        BufferedReader in = null;
+        try {
+            URL url = new URL("https://berniesanders.com/?json=true&which=issues");
+            in = new BufferedReader(new InputStreamReader(url.openStream()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (in == null) {
+            Log.d("reader null", "no events, null reader,");
+            Issue i = new Issue();
+            i.setHtmlTitle("Unable to Load News");
+            i.setDesc("Check your internet connection?");
+            issues.add(i);
             return null;
         }
+        JsonReader reader = new JsonReader(in);
+        try {
+            readObjects(reader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private void readObjects(JsonReader reader) throws IOException {
         Issue i = new Issue();
@@ -125,20 +126,20 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
                 return;
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "title" : {
+            switch (next.toLowerCase().trim()) {
+                case "title": {
                     i.setTitle(Html.fromHtml(reader.nextString()).toString());
                     break;
                 }
-                case "permalink" : {
+                case "permalink": {
                     i.setUrl(reader.nextString());
                     break;
                 }
-                case "date" : {
+                case "date": {
                     i.setPubDate(reader.nextString());
                     break;
                 }
-                case "content" : {
+                case "content": {
                     String content = reader.nextString();
                     if (content.contains("<style>") && content.contains("</style")) {
                         content = content.substring(content.indexOf("</style") + "</style>".length());
@@ -192,21 +193,21 @@ public class IssuesTask extends AsyncTask<Object, Issue, Object> {
                 reader.beginObject();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "children" : {
+            switch (next.toLowerCase().trim()) {
+                case "children": {
                     reader.beginArray();
                     reader.beginObject();
                     break;
                 }
-                case "data" : {
+                case "data": {
                     reader.beginObject();
                     break;
                 }
-                case "title" : {
+                case "title": {
                     title = reader.nextString().replaceAll("&amp;", "&");
                     break;
                 }
-                case "url" : {
+                case "url": {
                     link = reader.nextString();
                     break;
                 }

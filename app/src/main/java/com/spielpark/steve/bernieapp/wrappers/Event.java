@@ -9,6 +9,7 @@ import java.util.Date;
  */
 public class Event<T> implements Comparable<Event<T>> {
 
+    public boolean isrss = false;
     private String name;
     private String url;
     private String date;
@@ -26,13 +27,19 @@ public class Event<T> implements Comparable<Event<T>> {
     private double latitude;
     private double longitude;
     private boolean isOfficial;
-    public  boolean isrss = false;
-    public void setTime(String s) {
-        this.time = s;
+
+    public Event() {
+
     }
+
     public String getTime() {
         return this.time;
     }
+
+    public void setTime(String s) {
+        this.time = s;
+    }
+
     public String getState() {
         return state;
     }
@@ -48,6 +55,7 @@ public class Event<T> implements Comparable<Event<T>> {
     public void setUrl(String url) {
         this.url = url;
     }
+
     public boolean isOfficial() {
         return isOfficial;
     }
@@ -163,10 +171,6 @@ public class Event<T> implements Comparable<Event<T>> {
     @Override
     public String toString() {
         return this.getName() + " : " + this.getDate();
-    }
-
-    public Event() {
-
     }
 
     @Override

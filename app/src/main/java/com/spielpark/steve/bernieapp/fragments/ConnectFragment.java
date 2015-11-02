@@ -49,11 +49,12 @@ import java.util.HashMap;
 public class ConnectFragment extends Fragment {
     private static ConnectTask mTask;
     private static GoogleMap map;
-    private HashMap<Marker, Integer> mHashMap;
+    private static ConnectFragment mInstance;
     public String mZip = "";
     public int mRadius = 50;
     public boolean fetchCountry = true;
-    private static ConnectFragment mInstance;
+    private HashMap<Marker, Integer> mHashMap;
+
     public static ConnectFragment getInstance() {
         if (mInstance == null) {
             mInstance = new ConnectFragment();
@@ -177,12 +178,15 @@ public class ConnectFragment extends Fragment {
                 startActivity(mapIntent);
             }
         });
-        if (e.getDate() != null) ((TextView) base.findViewById(R.id.cd_txtDate)).setText(e.getDate());
+        if (e.getDate() != null)
+            ((TextView) base.findViewById(R.id.cd_txtDate)).setText(e.getDate());
         ((TextView) base.findViewById(R.id.cd_txtTitle)).setText(e.getName());
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setText(Html.fromHtml(e.getDescription()));
         ((TextView) base.findViewById(R.id.cd_txtDescContent)).setMovementMethod(new ScrollingMovementMethod());
-        if (e.getVenue_city() != null) ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
-        if (e.getAttendee_count() != 0) ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
+        if (e.getVenue_city() != null)
+            ((TextView) base.findViewById(R.id.cd_txtLocation)).setText(e.getVenue_addr() + "\n" + e.getVenue_city() + ", " + e.getState() + " - " + e.getZip());
+        if (e.getAttendee_count() != 0)
+            ((TextView) base.findViewById(R.id.cd_txtRSVP)).setText(e.isOfficial() ? "N/A" : Integer.toString(e.getAttendee_count()));
         Animation fadeIn = AnimationUtils.loadAnimation(getActivity(), alreadyLoaded ? R.anim.view_fade_in_fast : R.anim.view_fade_in);
         fadeIn.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -230,7 +234,7 @@ public class ConnectFragment extends Fragment {
     }
 
     private void setRadius(int m) {
-        mRadius = m++ < 4 ? m*25 : ((m-2)*50);
+        mRadius = m++ < 4 ? m * 25 : ((m - 2) * 50);
         ((Button) getView().findViewById(R.id.c_btnRadius)).setText(mRadius + " miles");
     }
 
@@ -246,7 +250,7 @@ public class ConnectFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 Log.d("Map Ready", "Bam.");
-                ConnectFragment.this.map = googleMap;
+                map = googleMap;
                 ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setEnabled(true);
                 ConnectFragment.this.getView().findViewById(R.id.c_progress).setVisibility(View.GONE);
                 ConnectFragment.this.getView().findViewById(R.id.c_btnGo).setBackgroundColor(Color.parseColor("#147FD7"));

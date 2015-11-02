@@ -33,6 +33,7 @@ public class NewsFragment extends Fragment {
             return mIntstance;
         }
     }
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

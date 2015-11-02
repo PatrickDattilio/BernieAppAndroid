@@ -10,6 +10,14 @@ import com.spielpark.steve.bernieapp.misc.Util;
  */
 public class Issue implements ImgTxtItem {
 
+    private String pubDate;
+    private String htmlTitle;
+    private String desc;
+    private String Url;
+    private String title;
+    private String video;
+    private String imgSrc;
+
     public String getHtmlTitle() {
         return htmlTitle;
     }
@@ -47,14 +55,6 @@ public class Issue implements ImgTxtItem {
         Log.d("Issue URL", bld.toString());
         return bld.toString();
     }
-
-    private String pubDate;
-    private String htmlTitle;
-    private String desc;
-    private String Url;
-    private String title;
-    private String video;
-    private String imgSrc;
 
     public String getPubDate() {
         return pubDate;

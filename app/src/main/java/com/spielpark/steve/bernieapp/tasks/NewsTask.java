@@ -21,12 +21,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by Steve on 7/8/2015.
@@ -41,18 +37,20 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
     private static String NULL_IMAGE = "https://s.bsd.net/bernie16/main/page/-/website/fb-share.png";
 
     public NewsTask(Context ctx, ListView listView, ProgressBar progressBar, TextView subHeader, TextView header) {
-        this.list = listView;
-        this.ctx = ctx;
-        this.progressBar = progressBar;
-        this.subHeader = subHeader;
-        this.header = header;
+        list = listView;
+        NewsTask.ctx = ctx;
+        NewsTask.progressBar = progressBar;
+        NewsTask.subHeader = subHeader;
+        NewsTask.header = header;
     }
 
     public static NewsArticle getArticle(int pos) {
         return articles.get(pos);
     }
 
-    public static ArrayList<NewsArticle> getData() { return articles; }
+    public static ArrayList<NewsArticle> getData() {
+        return articles;
+    }
 
     @Override
     protected Object doInBackground(Object[] params) {
@@ -75,13 +73,11 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                 JsonReader reader = new JsonReader(in);
                 try {
                     readObjects(reader);
-                }
-                catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -104,20 +100,20 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                 reader.endArray();
             }
             String next = reader.nextName();
-            switch(next.toLowerCase().trim()) {
-                case "title" : {
+            switch (next.toLowerCase().trim()) {
+                case "title": {
                     a.setTitle(reader.nextString());
                     break;
                 }
-                case "permalink" : {
+                case "permalink": {
                     a.setUrl(reader.nextString());
                     break;
                 }
-                case "date" : {
+                case "date": {
                     a.setPubDate(reader.nextString());
                     break;
                 }
-                case "content" : {
+                case "content": {
                     String content = reader.nextString();
                     if (content.contains("<style>") && content.contains("</style")) {
                         content = content.substring(content.indexOf("</style") + "</style>".length());
@@ -125,7 +121,7 @@ public class NewsTask extends AsyncTask<Object, NewsArticle, Object> {
                     a.setDesc(content);
                     break;
                 }
-                case "og_image" : {
+                case "og_image": {
                     if (reader.peek() == JsonToken.NULL) {
                         a.setImgSrc(NULL_IMAGE);
                         reader.nextNull();

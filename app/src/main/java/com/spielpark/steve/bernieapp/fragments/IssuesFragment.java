@@ -39,7 +39,7 @@ public class IssuesFragment extends Fragment {
         newsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ((actMainPage)getActivity()).loadIssue(IssuesTask.getIssue(position));
+                ((actMainPage) getActivity()).loadIssue(IssuesTask.getIssue(position));
             }
         });
     }

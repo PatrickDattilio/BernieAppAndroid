@@ -20,23 +20,13 @@ import com.squareup.picasso.Picasso;
 public class Util {
 
     private static Picasso p;
-    public enum Preferences {
-        BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
-
-        Preferences(String s, int i) {
-            this.value = i;
-            this.name = s;
-        }
-        public int value;
-        public String name;
-    }
 
     public static int[] getScreenWidthHeight(Activity ctx) {
         DisplayMetrics metrics = new DisplayMetrics();
         ctx.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         int width = Math.round(metrics.widthPixels / metrics.density) - 24;
         int height = Math.round(metrics.heightPixels / metrics.density) / 3;
-        return new int[] {width, height};
+        return new int[]{width, height};
     }
 
     public static Picasso getPicasso(Context ctx) {
@@ -78,5 +68,17 @@ public class Util {
                 })
                 .setView(view);
         return bld.create();
+    }
+
+    public enum Preferences {
+        BERNRATE_DIALOGUE("BernRate_ShowDialogue", 1);
+
+        public int value;
+        public String name;
+
+        Preferences(String s, int i) {
+            this.value = i;
+            this.name = s;
+        }
     }
 }
